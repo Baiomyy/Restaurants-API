@@ -1,0 +1,35 @@
+﻿
+
+using Microsoft.EntityFrameworkCore;
+using Restaurants.Application.Restaurants.Dtos;
+using Restaurants.Domain.Entities;
+using Restaurants.Domain.Repositories;
+using Restaurants.Infrastructure.Persistence;
+
+namespace Restaurants.Infrastructure.Repositories;
+
+internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaurantsRepository
+{
+    public async Task<int> Create(Restaurant entity)
+    {
+        dbContext.Restaurants.Add(entity);
+        await dbContext.SaveChangesAsync();
+        return entity.Id;
+    }
+
+    public async Task<IEnumerable<Restaurant>> GetAllAsync()
+    {
+        var Restaurants = await dbContext.Restaurants.ToListAsync();
+        return Restaurants;
+    }
+
+    public async Task<Restaurant?> GetByIdAsync(int id)
+    {
+        var restaurant = await dbContext.Restaurants
+            .Include(r => r.Dishes)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        return restaurant;
+    }
+
+}
