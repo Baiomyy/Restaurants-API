@@ -31,4 +31,14 @@ Content-Type: application/json
 ###
 GET https://localhost:7111/api/Restaurants/3
 
+###
+PATCH {{Restaurants.API_HostAddress}}/api/restaurants/3
+Content-Type: application/json
 
+{
+   "name": "Spicy test test",
+  "Description": "A culinary experience like no other",
+  "HasDelivery": true
+}
+
+###

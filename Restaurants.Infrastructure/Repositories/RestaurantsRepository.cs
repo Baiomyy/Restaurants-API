@@ -38,4 +38,6 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
         return restaurant;
     }
 
+    public Task SaveChanges()
+        => dbContext.SaveChangesAsync();
 }
