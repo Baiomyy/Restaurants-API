@@ -12,7 +12,7 @@ public class CreateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandl
 {
     public async Task<int> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Creating a new restaurant");
+        logger.LogInformation("Creating a new restaurant {@Restaurant}", request);// @ is used to log the object in a readable format(Serialization for Serilog)
         var restaurant = mapper.Map<Restaurant>(request); // Map CreateRestaurantDto to Restaurant entity
         int id = await restaurantsRepository.Create(restaurant);
         return id;

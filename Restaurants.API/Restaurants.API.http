@@ -5,11 +5,11 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/145
+GET {{Restaurants.API_HostAddress}}/api/restaurants/3
 
 ###
 
-DELETE {{Restaurants.API_HostAddress}}/api/restaurants/4
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/7
 
 ###
 
@@ -17,7 +17,7 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-  "name": "Spicy test",
+  "name": "tasty test test test",
   "Description": "A culinary experience like no other",
   "Category": "Indian",
   "HasDelivery": true,
@@ -29,16 +29,38 @@ Content-Type: application/json
 }
 
 ###
-GET https://localhost:7111/api/Restaurants/3
+GET https://localhost:7111/api/Restaurants/1
 
 ###
-PATCH {{Restaurants.API_HostAddress}}/api/restaurants/3
+PATCH {{Restaurants.API_HostAddress}}/api/restaurants/6
 Content-Type: application/json
 
 {
-   "name": "Spicy test test",
+   "name": "Spicy testtesttesttest test",
   "Description": "A culinary experience like no other",
   "HasDelivery": true
 }
 
 ###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants/3/dishes
+Content-Type: application/json
+
+{
+    "name": "Spicy Chicken Curry",
+    "description": "A fiery blend of spices with tender chicken pieces",
+    "price": 12.99,
+    "KiloCalroies": 750
+}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants/3/dishes
+
+###
+
+
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/3/dishes
+
+###
+

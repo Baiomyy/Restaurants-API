@@ -9,7 +9,7 @@ public class DishDto
     public string Description { get; set; } = default!;
     public decimal Price { get; set; }
 
-    public int? KiloCalories { get; set; }
+    public int? KiloCalroies { get; set; }
 
     //public static DishDto FromEntity(Dish dish)
     //{
