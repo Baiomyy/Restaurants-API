@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
+using Restaurants.Infrastructure.Authorization;
+using Restaurants.Infrastructure.Authorization.Requirements;
 using Restaurants.Infrastructure.Persistence;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
@@ -18,12 +22,21 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(connectionString)
                    .EnableSensitiveDataLogging());
 
-        services.AddIdentityApiEndpoints<User>() 
+        services.AddIdentityApiEndpoints<User>()
+            .AddRoles<IdentityRole>() // tells ASP.NET Core Identity to enable Role Management using the built-in IdentityRole class
+            .AddClaimsPrincipalFactory<RestaurantsUserClaimsPrincipalFactory>() // custom claims principal factory to add additional claims
             .AddEntityFrameworkStores<RestaurantsDbContext>();
 
 
         services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
         services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
         services.AddScoped<IDishesRepository, DishesRepository>();
+        services.AddAuthorizationBuilder()
+            .AddPolicy(PolicyNames.HasNationality,
+                builder => builder.RequireClaim(AppClaimTypes.Nationality, "German", "Polish"))
+            .AddPolicy(PolicyNames.AtLeast20,
+                builder => builder.AddRequirements(new MinimumAgeRequirement(20)));
+
+        services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
     }
 }
